@@ -6,16 +6,16 @@ LIBB=#-L/data/miao/lib/libibverbs-1.2.0/lib
 LDFLAGS=-lzmq -libverbs
 #ibv_devinfo -v
 
-all: rdma_test benchmark
+all: rdma_demo_1side rdma_demo_2sides
 
 rdma_resouce.o: rdma_resource.hpp rdma_resource.cpp
 	$(CXX) $(CPPFLAGS) $(HEADER) $(LIBB) $(LDFLAGS) rdma_resource.cpp -c
 
-rdma_test: rdma_test.cpp rdma_resource.o
-	$(CXX) $(CPPFLAGS) $(HEADER) $(LIBB) $(LDFLAGS) rdma_test.cpp -o rdma_test rdma_resource.o
+rdma_demo_1side: rdma_demo_1side.cpp rdma_resource.o
+	$(CXX) $(CPPFLAGS) $(HEADER) $(LIBB) $(LDFLAGS) rdma_demo_1side.cpp -o rdma_demo_1side rdma_resource.o
 
-benchmark: benchmark.cpp rdma_resource.o
-	$(CXX) $(CPPFLAGS) $(HEADER) $(LIBB) $(LDFLAGS) benchmark.cpp -o benchmark rdma_resource.o
+rdma_demo_2sides: rdma_demo_2sides.cpp rdma_resource.o
+	$(CXX) $(CPPFLAGS) $(HEADER) $(LIBB) $(LDFLAGS) rdma_demo_2sides.cpp -o rdma_demo_2sides rdma_resource.o
 
 clean:
-	-rm rdma_test benchmark
+	-rm rdma_demo_1side rdma_demo_2sides
