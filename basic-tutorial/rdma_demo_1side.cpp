@@ -64,31 +64,6 @@ int main(int argc, char** argv)
 		}
 	}
 	std::cout << std::endl;
-
-	// test rdma write with imm
-	{
-		if (role == "reader")
-			rdma.post_receive(rdma.get_buf(), 1);
-
-		rdma.barrier(remote_name, port);
-
-		if (role == "writer")
-		{
-			char* msg = rdma.get_buf();
-			strcpy(msg, "hello world");
-			// the last parameter is the virtual address of remote machine
-			rdma.rdma_write_imm(msg, strlen(msg), 0);
-			rdma.poll_completion();
-			printf("writer waits the reader's poll_completion calling\n");
-		}
-		else if (role == "reader")
-		{
-			rdma.poll_completion();
-			printf("Message received: %s\n", rdma.get_buf());
-		}
-		else
-		{
-			assert(false);
-		}
-	}
+	
+	return 0;
 }
