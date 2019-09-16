@@ -29,9 +29,8 @@
 struct config_t
 {
 	const char *dev_name;	/* IB device name */
-	char *server_name;		/* server host name */
-	int ib_port;			/* local IB port to work with */
-	int gid_idx;			/* gid index to use */
+	int ib_port;		/* local IB port to work with */
+	int gid_idx;		/* gid index to use */
 };
 
 /* structure to exchange data which is needed to connect the QPs */
