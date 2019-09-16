@@ -2,18 +2,18 @@
 
     make -j
 
-============rdma_test============
+============rdma_demo_1side============
 
 In one server (e.g. worker2):
-    ./rdma_test ib5 writer
+    ./rdma_demo_1side $READER_IP_ADDR writer
 
 In another server (e.g. worker5)
-    ./rdma_test ib2 reader
+    ./rdma_demo_1side $WRITER_IP_ADDR reader
 
-============benchmark============
+============rdma_demo_2sides============
 
 In one server (e.g. worker2):
-    ./benchmark ib5 writer
+    ./rdma_demo_2sides $READER_IP_ADDR writer
 
 In another server (e.g. worker5)
-    ./benchmark ib2 reader
+    ./rdma_demo_2sides $WRITER_IP_ADDR reader
