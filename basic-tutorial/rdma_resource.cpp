@@ -2,10 +2,9 @@
 
 struct config_t rdma_config =
 {
-	NULL,	/* dev_name */
-	NULL,	/* server_name */
-	1,		/* ib_port ; according to: ibv_devinfo -v => phys_port_cnt=1 */
-	-1		/* gid_idx */
+	NULL,	/* dev_name: according to: ibv_devinfo */
+	1,	/* ib_port: according to: ibv_devinfo -v => phys_port_cnt=1 */
+	-1	/* gid_idx: trivial when using IB; use show_gids to check index when using RoCE */
 };
 
 #if __BYTE_ORDER == __LITTLE_ENDIAN
@@ -150,7 +149,7 @@ static int dev_resources_create (struct dev_resource *res, char* buf, uint64_t s
 		assert(false);
 	}
 
-	fprintf(stdout,"The max size can reg: %ld\n",res->device_attr.max_mr_size);
+	fprintf(stdout,"The max size can reg: %lu\n",res->device_attr.max_mr_size);
 
 	switch(res->device_attr.atomic_cap)
 	{
@@ -596,9 +595,17 @@ static int post_send (struct QP *res, char* local_buf, uint32_t size, uint64_t r
 /* ------------------------- close_ib_connection ------------------------------- */
 static void close_ib_connection(struct dev_resource* dev, struct QP* res)
 {
-	if (dev->mr != NULL)
-	{
-		ibv_dereg_mr(dev->mr);
+	if (res->qp != NULL) {
+		ibv_destroy_qp (res->qp);
+	}
+	// if (ib_res.srq != NULL) {
+	//      ibv_destroy_srq (ib_res.srq);
+	// }
+	if (res->cq != NULL) {
+		ibv_destroy_cq (res->cq);
+	}
+	if (dev->mr != NULL) {
+		ibv_dereg_mr (dev->mr);
 	}
 	if (dev->pd != NULL)
 	{
@@ -612,28 +619,7 @@ static void close_ib_connection(struct dev_resource* dev, struct QP* res)
 	{
 		free(dev->buf);
 	}
-
-	if (res->qp != NULL)
-	{
-		//for (int i = 0; i < res->num_qps; ++i)
-		//{
-			//if (res->qp[i] != NULL)
-			//{
-				ibv_destroy_qp(res->qp);  // res->qp[i]
-			//}
-		//}
-	}
-	if (res->cq != NULL)
-	{
-		ibv_destroy_cq(res->cq);
-	}
-	//if (res->srq != NULL)
-	//{
-	//	ibv_destroy_srq(res->srq);
-	//}
 }
-
-
 /* ========================================================= */
 
 
