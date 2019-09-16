@@ -39,6 +39,8 @@ void rdma_communicate_send(RdmaResourcePair& rdma, std::string remote_name, int 
 	{
 		assert(false);
 	}
+	
+	rdma.barrier(remote_name, port);
 }
 
 void rdma_communicate_write_imm(RdmaResourcePair& rdma, std::string remote_name, int port, std::string role)
@@ -46,7 +48,7 @@ void rdma_communicate_write_imm(RdmaResourcePair& rdma, std::string remote_name,
 	if (role == "reader")
 		rdma.post_receive(rdma.get_buf(), 1);
 
-	rdma.barrier(remote_name, port);
+	// rdma.barrier(remote_name, port);
 
 	if (role == "writer")
 	{
@@ -64,6 +66,8 @@ void rdma_communicate_write_imm(RdmaResourcePair& rdma, std::string remote_name,
 	{
 		assert(false);
 	}
+	
+	rdma.barrier(remote_name, port);
 }
 
 void test_rdma(std::string remote_name, int port, std::string role, char* mem, size_t size, int times)
@@ -142,6 +146,7 @@ int main(int argc, char** argv)
 	std::string role = argv[2];
 
 	// generate a very large string
+	constexpr size_t kilobyte = 1024;
 	constexpr size_t megabyte = 1048576;
 	constexpr size_t gigabyte = 1073741824;
 	constexpr size_t size = gigabyte;
