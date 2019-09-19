@@ -48,7 +48,7 @@ void rdma_communicate_write_imm(RdmaResourcePair& rdma, std::string remote_name,
 	if (role == "reader")
 		rdma.post_receive(rdma.get_buf(), 1);
 
-	// rdma.barrier(remote_name, port);
+	rdma.barrier(remote_name, port);
 
 	if (role == "writer")
 	{
