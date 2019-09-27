@@ -1,5 +1,6 @@
 ## Usage
 
+    yum install zeromq-devel cppzmq-devel
     make -j
 
 ============rdma_demo_1side============
