@@ -39,7 +39,7 @@ http://www.nminoru.jp/~nminoru/network/infiniband/ibverbs-getstarted.html
 
 Software:  
 (0)  
-https://github.com/Mogami95/Rdma_Playground  
+https://github.com/Mogami95/RDMA_Playground  
 (1)  
 https://www.openfabrics.org/downloads/verbs  
 https://www.openfabrics.org/downloads/rdmacm  
